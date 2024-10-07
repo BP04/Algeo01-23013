@@ -54,4 +54,15 @@ public class Matrix {
             System.out.println();
         }
     }
+    
+    public Matrix transpose_matrix(){
+        Matrix transpose = new Matrix(cols, rows);
+        for (int i = 0; i < rows; ++i){
+            for (int j = 0; j < cols; ++j){
+                transpose.set(j, i, data[i][j]);
+            }
+        }
+        return transpose;
+    }
+    
 }
