@@ -35,6 +35,32 @@ public class Matrix {
         return cols;
     }
 
+    public Matrix copy_matrix(){
+        Matrix res = new Matrix(rows, cols);
+        for(int i = 0; i < rows; ++i){
+            for(int j = 0; j < cols; ++j){
+                res.set(i, j, data[i][j]);
+            }
+        }
+        return res;
+    }
+
+    public double[] copy_row(int row){
+        double[] res = new double[cols];
+        for(int j = 0; j < cols; ++j){
+            res[j] = data[rows][j];
+        }
+        return res;
+    }
+
+    public double[] copy_col(int col){
+        double[] res = new double[rows];
+        for(int i = 0; i < cols; ++i){
+            res[i] = data[i][col];
+        }
+        return res;
+    }
+
     public Matrix multiply_by_constant(double constant) {
         Matrix res = new Matrix(rows, cols);
         for(int i = 0; i < rows; ++i){
