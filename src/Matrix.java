@@ -90,5 +90,24 @@ public class Matrix {
         }
         return transpose;
     }
-    
+
+    public Matrix multiply(Matrix other){
+        if (cols != other.get_rows()) {
+            throw new IllegalArgumentException("Matrix multiplication not possible: " + 
+            "First matrix's number of columns must be equal to the second matrix's number of rows.");
+        }
+
+        Matrix result = new Matrix(rows, other.get_cols()) ;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < other.get_cols(); j++) {
+                double sum = 0;
+                for (int k = 0; k < cols; k++) {
+                    sum += (this.get(i, k) * other.get(k, j));
+                }
+                result.set(i, j, sum);
+            }
+        }
+
+        return result;
+    }
 }
