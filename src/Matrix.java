@@ -35,7 +35,7 @@ public class Matrix {
         return cols;
     }
 
-    public Matrix multiply_constant(double constant) {
+    public Matrix multiply_by_constant(double constant) {
         Matrix res = new Matrix(rows, cols);
         for(int i = 0; i < rows; ++i){
             for(int j = 0; j < cols; ++j){
