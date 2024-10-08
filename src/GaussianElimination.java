@@ -23,17 +23,19 @@ public class GaussianElimination {
                 }
             }
 
-            double pivot = matrix.get(i, i);
+            double pivot = result.get(i, i);
             if(pivot != 0){
                 for(int j = i; j < cols; ++j){
-                    matrix.set(i, j, matrix.get(i, j) / pivot);
+                    result.set(i, j, result.get(i, j) / pivot);
                 }
             }
+
+            
             
             for(int k = i + 1; k < rows; ++k){
-                double constant = matrix.get(k, i);
+                double constant = result.get(k, i);
                 for(int j = i; j < cols; ++j){
-                    matrix.set(k, j, matrix.get(k, j) - matrix.get(i, j) * constant);
+                    result.set(k, j, result.get(k, j) - result.get(i, j) * constant);
                 }
             }
         }
