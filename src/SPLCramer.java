@@ -13,8 +13,7 @@ public class SPLCramer {
                 }
             }
         }
-        
-        return DeterminantCofactor.determinant(matrix_n);
+        return DeterminantRowReduction.determinant_row_reduction(matrix_n);
     }
 
     public static void spl_cramer(Matrix matrix) {
@@ -25,7 +24,7 @@ public class SPLCramer {
                 matrix_det.set(i, j, matrix.get(i, j));
             }
         }
-        double det = DeterminantCofactor.determinant(matrix_det);
+        double det = DeterminantRowReduction.determinant_row_reduction(matrix_det);
 
         // Case: not a square matrix
         if (rows != (cols-1)) {
