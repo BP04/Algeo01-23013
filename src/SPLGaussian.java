@@ -20,8 +20,51 @@ public class SPLGaussian {
         }
         if (has_contradiction) {
             System.out.println("Matrix does not have a solution.");
-        } else if (has_all_zeros) {
+        } else if ((rows < (cols - 1)) || has_all_zeros) {
             System.out.println("Matrix has infinite solutions.");
+            System.out.println("Parametric solution:");
+
+            boolean[] is_free_variable = new boolean[cols - 1];
+            
+            for (int j = 0; j < cols - 1; j++) {
+                boolean has_leading_one = false;
+                for (int i = 0; i < rows; i++) {
+                    if (matrix.get(i, j) == 1) {
+                        boolean is_leading_one = true;
+                        for (int k = 0; k < j; k++) {
+                            if (matrix.get(i, k) == 1) {
+                                is_leading_one = false;
+                            }
+                        }
+                        if (is_leading_one) {
+                            has_leading_one = true;
+                            break;
+                        }
+                    }
+                }
+                if (!has_leading_one) {
+                    is_free_variable[j] = true;
+                }
+            }
+
+            for (int i = 0; i < cols - 1; i++) {
+                if (is_free_variable[i]) {
+                    System.out.println("x" + (i + 1) + " = t" + (i + 1));  
+                } 
+                else {
+                    System.out.print("x" + (i + 1) + " = ");
+                    if (matrix.get(i, cols - 1) != 0) {
+                        System.out.print(matrix.get(i, cols - 1));
+                    }
+                    for (int j = 0; j < cols - 1; j++) {
+                        if (is_free_variable[j] && matrix.get(i, j) != 0) {
+                            System.out.print(" - ");
+                            System.out.print(matrix.get(i, j) + " * t" + (j + 1));
+                        }
+                    }
+                    System.out.println();
+                }
+            }
         } else {
             Matrix solution = new Matrix(rows, 1);
             for (int i = rows-1; i >= 0; i--) {
