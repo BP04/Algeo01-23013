@@ -3,10 +3,41 @@ import java.io.File;
 import javax.imageio.ImageIO;
 
 public class ImageResizer {
-    
-    public static int bicubic_spline_interpolate(BufferedImage image, double x, double y){
-        int xf = (int)Math.floor(x);
-        int yf = (int)Math.floor(y);
+
+    private static Matrix discrete_derivate(Matrix neighbors){
+        Matrix result = new Matrix(4, 4);
+        
+        for(int type = 0; type < 4; ++type){
+            for(int posy = 0; posy < 2; ++posy){
+                for(int posx = 0; posx < 2; ++posx){
+                    int x = posx + 1, y = posy + 1;
+                    double new_value = 0;
+
+                    if(type == 0){
+                        new_value = neighbors.get(x, y);
+                    }
+                    else if(type == 1){
+                        new_value = (neighbors.get(x, y + 1) - neighbors.get(x, y - 1)) / 2.0;
+                    }
+                    else if(type == 2){
+                        new_value = (neighbors.get(x + 1, y) - neighbors.get(x - 1, y)) / 2.0;
+                    }
+                    else{
+                        new_value = (neighbors.get(x + 1, y + 1) - neighbors.get(x - 1, y + 1) - neighbors.get(x + 1, y - 1) + neighbors.get(x - 1, y - 1)) / 4.0;
+                    }
+
+                    result.set(type, 2 * posy + posx, new_value);
+                }
+            }
+        }
+        
+        return result;
+    }
+
+    private static int bicubic_spline_interpolate(BufferedImage image, double x, double y){
+        int width = image.getWidth(), height = image.getHeight();
+        int xf = (int) Math.max(0, Math.min(width - 1, Math.floor(x)));
+        int yf = (int) Math.max(0, Math.min(height - 1, Math.floor(y)));
         
         Matrix alpha_matrix = new Matrix(4, 4);
         Matrix red_matrix = new Matrix(4, 4);
@@ -15,8 +46,8 @@ public class ImageResizer {
     
         for(int i = -1; i <= 2; ++i){
             for(int j = -1; j <= 2; ++j){
-                int xn = Math.max(0, Math.min(xf + i, image.getWidth() - 1));
-                int yn = Math.max(0, Math.min(yf + j, image.getHeight() - 1));
+                int xn = Math.max(0, Math.min(xf + i, width - 1));
+                int yn = Math.max(0, Math.min(yf + j, height - 1));
     
                 int rgb = image.getRGB(xn, yn);
                 
@@ -31,18 +62,24 @@ public class ImageResizer {
                 blue_matrix.set(i + 1, j + 1, blue);
             }
         }
+
+        alpha_matrix = discrete_derivate(alpha_matrix);
+        red_matrix   = discrete_derivate(red_matrix);
+        green_matrix = discrete_derivate(green_matrix);
+        blue_matrix  = discrete_derivate(blue_matrix);
+
+        double xp = Math.max(0, Math.min(width - 1, x - (double)xf)), yp = Math.max(0, Math.min(height - 1, y - (double)yf));
     
-        int alpha = (int)BicubicSplineInterpolation.evaluate(alpha_matrix, x - xf, y - yf);
-        int red   = (int)BicubicSplineInterpolation.evaluate(red_matrix, x - xf, y - yf);
-        int green = (int)BicubicSplineInterpolation.evaluate(green_matrix, x - xf, y - yf);
-        int blue  = (int)BicubicSplineInterpolation.evaluate(blue_matrix, x - xf, y - yf);
+        int alpha = (int)BicubicSplineInterpolation.evaluate(alpha_matrix, xp, yp);
+        int red   = (int)BicubicSplineInterpolation.evaluate(red_matrix, xp, yp);
+        int green = (int)BicubicSplineInterpolation.evaluate(green_matrix, xp, yp);
+        int blue  = (int)BicubicSplineInterpolation.evaluate(blue_matrix, xp, yp);
     
         alpha = Math.max(0, Math.min(alpha, 255));
         red   = Math.max(0, Math.min(red, 255));
         green = Math.max(0, Math.min(green, 255));
         blue  = Math.max(0, Math.min(blue, 255));
     
-        //System.out.println((alpha << 24) | (red << 16) | (green << 8) | blue);
         return (alpha << 24) | (red << 16) | (green << 8) | blue;
     }
 
@@ -68,16 +105,18 @@ public class ImageResizer {
 
     public static void main(String[] args) {
         try {
-            File inputFile = new File("input.jpg");
+            File inputFile = new File("gradient_image.jpg");
             BufferedImage inputImage = ImageIO.read(inputFile);
 
-            double scaleX = 1.0;
-            double scaleY = 2.0;
+            System.out.println(inputImage.getWidth() + " " + inputImage.getHeight());
+
+            double scaleX = 7.0;
+            double scaleY = 3.0;
 
             BufferedImage resizedImage = resize(inputImage, scaleX, scaleY);
 
-            File outputFile = new File("output.jpg");
-            ImageIO.write(resizedImage, "jpg", outputFile);
+            File outputFile = new File("output.png");
+            ImageIO.write(resizedImage, "png", outputFile);
 
             System.out.println("Image resized and saved successfully.");
 
