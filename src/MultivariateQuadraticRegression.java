@@ -65,7 +65,10 @@ public class MultivariateQuadraticRegression {
         // Calculate each beta variables value using regular formula for Ordinary Least Square
         Matrix A = augmented_matrix.transpose_matrix();
         A = A.multiply(augmented_matrix);
-        A.print_matrix();
+        double lambda = 1e-3;
+        for (int i = 0; i < A.get_rows(); i++) {
+            A.set(i, i, A.get(i, i) + lambda);  // Add lambda to the diagonal (Ridge regularization)
+        }
         A = InverseMatrixDeterminant.inverse_with_determinant(A);
         Matrix b = augmented_matrix.transpose_matrix();
         b = b.multiply(output);
