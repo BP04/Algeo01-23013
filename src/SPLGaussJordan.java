@@ -4,8 +4,7 @@ public class SPLGaussJordan {
 
         // Execute the Gauss-Jordan Elimination function on matrix
         matrix = GaussJordanElimination.gauss_jordan_elimination(matrix);
-        matrix.print_matrix();
-
+        
         boolean has_contradiction = false;
         boolean has_all_zeros = false;
         
@@ -32,8 +31,6 @@ public class SPLGaussJordan {
             System.out.println("Matrix does not have a solution.");
         } 
         else if ((rows < (cols - 1)) || has_all_zeros) {
-            System.out.println("Matrix has infinite solutions.");
-            System.out.println("Parametric solution:");
 
             boolean[] is_free_variable = new boolean[cols - 1];
             
