@@ -81,8 +81,9 @@ public class MultipleLinearRegression {
         // Output terms result
         System.out.println();
         System.out.println("Regression. terms:");
-        for (int i = 0; i < cols; i++) {
-            System.out.println("x" + (i+1) + " = " + beta.get(i, 0));
+        System.out.println("c" + " = " + beta.get(0, 0));
+        for (int i = 1; i < beta.get_rows(); i++) {
+            System.out.println("x" + (i) + " = " + beta.get(i, 0));
         }
 
         // Output predictions
@@ -91,8 +92,9 @@ public class MultipleLinearRegression {
         System.out.println("Input predictions: ");
         for (int i = 0; i < rows; i++) {
             System.out.print((i+1) + ". f" + (i+1) + "(");
-            for (int j = 0; j < beta.get_rows(); j++) {
-                System.out.print("x" + (j+1));
+            System.out.print("c, ");
+            for (int j = 1; j < beta.get_rows(); j++) {
+                System.out.print("x" + (j));
                 if (j < beta.get_rows() - 1) {
                     System.out.print(", ");
                 }
