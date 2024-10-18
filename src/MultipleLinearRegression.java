@@ -80,7 +80,7 @@ public class MultipleLinearRegression {
 
         // Output terms result
         System.out.println();
-        System.out.println("Regression. terms:");
+        System.out.println("Regression terms:");
         System.out.println("c" + " = " + beta.get(0, 0));
         for (int i = 1; i < beta.get_rows(); i++) {
             System.out.println("x" + (i) + " = " + beta.get(i, 0));
