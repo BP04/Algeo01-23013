@@ -4,7 +4,7 @@ public class SPLInverse {
         int cols = matrix.get_cols();
         
         if (cols != rows + 1) {
-            throw new IllegalArgumentException("Matrix is not augmented (last column should be constants).");
+            throw new IllegalArgumentException("Matrix might not be augmented (last column should be constants).");
         }
 
         Matrix coefficients = new Matrix(rows, rows);
