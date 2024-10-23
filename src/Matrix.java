@@ -48,14 +48,14 @@ public class Matrix {
     public double[] copy_row(int row){
         double[] res = new double[cols];
         for(int j = 0; j < cols; ++j){
-            res[j] = data[rows][j];
+            res[j] = data[row][j];
         }
         return res;
     }
 
     public double[] copy_col(int col){
         double[] res = new double[rows];
-        for(int i = 0; i < cols; ++i){
+        for(int i = 0; i < rows; ++i){
             res[i] = data[i][col];
         }
         return res;
