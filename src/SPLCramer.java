@@ -26,7 +26,7 @@ public class SPLCramer {
         }
         double det = DeterminantRowReduction.determinant_row_reduction(matrix_det);
 
-        // Case: not a square matrix
+        // Case: not a square matrix 
         if (rows != (cols-1)) {
             System.out.println("The Cramer method is used for square matrix, i.e. the number of rows is equal to the number of columns.");
         }
