@@ -6,7 +6,7 @@ public class SPLGaussian {
 
         boolean has_contradiction = false;
         boolean has_all_zeros = false;
-        for (int i = 0; i < rows; i++) {
+        for (int i = 0; i < Math.min(rows, cols - 1); i++) {
             double sum = 0;
             for (int j = 0; j < cols-1; j++) {
                 sum += matrix.get(i, j); 
@@ -18,6 +18,7 @@ public class SPLGaussian {
                 has_contradiction = true;  
             }
         }
+
         if (has_contradiction) {
             System.out.println("Matrix does not have a solution.");
         } else if ((rows < (cols - 1)) || has_all_zeros) {
@@ -26,10 +27,13 @@ public class SPLGaussian {
 
             boolean[] is_free_variable = new boolean[cols - 1];
             
+            // Search for free variables
+            int not_free = 0;
             for (int j = 0; j < cols - 1; j++) {
                 boolean has_leading_one = false;
                 for (int i = 0; i < rows; i++) {
                     if (matrix.get(i, j) == 1) {
+                        // Check if there's a already a leading one in the same column
                         boolean is_leading_one = true;
                         for (int k = 0; k < j; k++) {
                             if (matrix.get(i, k) == 1) {
@@ -45,22 +49,30 @@ public class SPLGaussian {
                 if (!has_leading_one) {
                     is_free_variable[j] = true;
                 }
+                else{
+                    not_free = j;
+                }
             }
 
+            // Output the parametric solutions
+            int free_index = 1;
             for (int i = 0; i < cols - 1; i++) {
                 if (is_free_variable[i]) {
-                    System.out.println("x" + (i + 1) + " = t" + (i + 1));  
+                    System.out.println("x" + (i + 1) + " = t" + (free_index));
+                    free_index++;  
                 } 
                 else {
                     System.out.print("x" + (i + 1) + " = ");
-                    if (matrix.get(i, cols - 1) != 0) {
-                        System.out.print(matrix.get(i, cols - 1));
-                    }
-                    for (int j = 0; j < cols - 1; j++) {
-                        if (is_free_variable[j] && matrix.get(i, j) != 0) {
-                            System.out.print(" - ");
-                            System.out.print(matrix.get(i, j) + " * t" + (j + 1));
+                    for(int j = not_free + 1; j < cols - 1; ++j){
+                        if(matrix.get(i, j) != 0){
+                            System.out.print(-matrix.get(i, j) + "t" + (j - not_free) + " + ");
                         }
+                    }
+                    if(matrix.get(i, cols - 1) == 0){
+                        System.out.print("0.0");
+                    }
+                    else{
+                        System.out.print(matrix.get(i, cols - 1));
                     }
                     System.out.println();
                 }
