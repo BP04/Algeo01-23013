@@ -110,8 +110,8 @@ public class ImageResizer {
 
             System.out.println(inputImage.getWidth() + " " + inputImage.getHeight());
 
-            double scaleX = 7.0;
-            double scaleY = 3.0;
+            double scaleX = 100;
+            double scaleY = 100;
 
             BufferedImage resizedImage = resize(inputImage, scaleX, scaleY);
 
