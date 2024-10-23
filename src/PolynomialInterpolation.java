@@ -27,13 +27,44 @@ public class PolynomialInterpolation {
         }
     }
 
-    public static double estimate_value(Matrix coefficients, double x) {
+    public static void estimate_value(Matrix coefficients, double x) {
         double result = 0;
         for (int i = 0; i < coefficients.get_rows(); i++) {
             result += coefficients.get(i, 0) * Math.pow(x, i); 
         }
-        return result;
+        
+        System.out.print("f(x) = ");
+        for (int i = coefficients.get_rows() - 1; i >= 0; i--) {
+            if (i == coefficients.get_rows() - 1) {  
+                System.out.printf("%f", coefficients.get(i, 0));
+                if (i > 1) {
+                    System.out.printf("x^%d", i);  
+                } else if (i == 1) {
+                    System.out.print("x");
+                }
+            } else if (coefficients.get(i, 0) >= 0) {  // positive
+                if (i > 1) {
+                    System.out.printf(" + %fx^%d", coefficients.get(i, 0), i);
+                } else if (i == 1) {
+                    System.out.printf(" + %fx", coefficients.get(i, 0));
+                } else {
+                    System.out.printf(" + %f", coefficients.get(i, 0));
+                }
+            } else {  // negative
+                if (i > 1) {
+                    System.out.printf(" - %fx^%d", Math.abs(coefficients.get(i, 0)), i);
+                } else if (i == 1) {
+                    System.out.printf(" - %fx", Math.abs(coefficients.get(i, 0)));
+                } else {
+                    System.out.printf(" - %f", Math.abs(coefficients.get(i, 0)));
+                }
+            }
+        }
+
+        System.out.println();
+        System.out.printf("f(%f) = %f\n", x, result);
     }
+    
 
     public static Matrix spl_gaussian(Matrix matrix) {
         matrix = GaussianElimination.gaussian_elimination(matrix);
@@ -66,7 +97,7 @@ public class PolynomialInterpolation {
         }
 
         if (hasContradiction) {
-            throw new IllegalArgumentException("atrix does not have a solution");
+            throw new IllegalArgumentException("Matrix does not have a solution");
         } else if (hasAllZeros) {
             throw new IllegalArgumentException("Matrix has infinite solutions.");
         }
