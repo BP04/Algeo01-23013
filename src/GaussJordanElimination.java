@@ -6,6 +6,14 @@ public class GaussJordanElimination {
 
         //Execute backward elimination
         for(int i = 1; i < rows; i++){
+            double leadingCoefficient = matrix.get(i, i);
+            if (leadingCoefficient == 0) {
+                continue; // Skip if leading coefficient is zero
+            }
+            for (int k = 0; k < cols; k++) {
+                matrix.set(i, k, matrix.get(i, k) / leadingCoefficient); // Normalize the row
+            }
+            
             for(int j = 0; j < i; j++){
                 if (matrix.get(j, i) != 0) {
                     double constants = (matrix.get(j, i) / matrix.get(i, i));
