@@ -1,11 +1,17 @@
 import java.util.Scanner;
 
 public class MultivariateQuadraticRegression {
-    public static void multiple_quadratic_regression(Matrix matrix) {
+    public static void multiple_quadratic_regression(Matrix matrix, Matrix xk) {
         int rows = matrix.get_rows(), cols = matrix.get_cols() - 1;
+        int rows2 = xk.get_rows(), cols2 = xk.get_cols();
         // n > 1 checking
         if (cols <= 1) {
             throw new IllegalArgumentException("Number of terms must be greater than 1.");
+        }
+
+        // matrix and xk dimension  checking
+        if (cols != cols2) {
+            throw new IllegalArgumentException("Mismatch of input matrix and xk's number of features");
         }
 
         // Regularization's lambda initialization
@@ -36,6 +42,7 @@ public class MultivariateQuadraticRegression {
         // Columns combination as number of interactive variables
         int cols_comb = (cols * (cols - 1)) / 2;
         Matrix augmented_matrix = new Matrix(rows,(2 * cols) + cols_comb + 1);
+        // Input matrix columns expansion
         // Fill augmented matrix's constants (1)
         for (int i = 0; i < rows; i++) {
             augmented_matrix.set(i, 0, 1);
@@ -66,6 +73,37 @@ public class MultivariateQuadraticRegression {
         Matrix output = new Matrix(augmented_matrix.get_rows(), 1);
         for (int i = 0; i < rows; i++) {
             output.set(i, 0, matrix.get(i, cols));
+        }
+
+        // Columns combination as number of interactive variables
+        int cols_comb2 = (cols2 * (cols2 - 1)) / 2;
+        Matrix pred_matrix = new Matrix(rows2,(2 * cols2) + cols_comb2 + 1);
+        // xk's columns expansion
+        // Fill augmented matrix's constants (1)
+        for (int i = 0; i < rows2; i++) {
+            pred_matrix.set(i, 0, 1);
+        }
+        // Fill augmented matrix's linear variable
+        for (int i = 0; i < rows2; i++) {
+            for (int j = 0; j < cols2; j++) {
+                pred_matrix.set(i, j + 1, xk.get(i, j));
+            }
+        }
+        // Fill augmented matrix's squared variables
+        for (int i = 0; i < rows2; i++) {
+            for (int j = 0; j < cols2; j++) {
+                pred_matrix.set(i, j + cols2 + 1, Math.pow(xk.get(i, j), 2));
+            }
+        }
+        // Fill augmented matrix's interaction variables
+        for (int k = 0; k < rows2; k++) {
+            int idx = 0;
+            for (int i = 0; i < cols2 - 1; i++) {
+                for (int j = i + 1; j < cols2; j++) {
+                    pred_matrix.set(k, 1 + (2 * cols2) + idx, (xk.get(k, i) * xk.get(k, j)));
+                    idx++;
+                }
+            }
         }
 
         // Generate output variables
@@ -128,26 +166,31 @@ public class MultivariateQuadraticRegression {
 
         // Output terms result
         System.out.println();
-        System.out.println("Regression terms:");
-        for (int i = 0; i < (2 * col) + cols_comb + 1; i++) {
-            System.out.println(variables[i] + " = " + beta.get(i, 0));
-        }
-        // Output predictions
-        System.out.println();
-        Matrix predictions = augmented_matrix.multiply(beta);
-        System.out.println("Input predictions: ");
-        for (int i = 0; i < rows; i++) {
-            System.out.print((i+1) + ". f" + (i+1) + "(");
-            for (int j = 0; j < (2 * col) + cols_comb + 1; j++) {
-                System.out.print(variables[j]);
-                if (j < (2 * col) + cols_comb) {
-                    System.out.print(", ");
-                }
-                else {
-                    System.out.print(") = ");
-                }
+        System.out.println("f(x) = " + beta.get(0, 0) + " + ");
+        System.out.print("       ");
+        for (int i = 1; i < (2 * col) + cols_comb + 1; i++) {
+            System.out.print(beta.get(i, 0) + variables[i]);
+            if (i < (2 * col) + cols_comb) {
+                System.out.print(" + ");
             }
-            System.out.println(predictions.get(i, 0));
+            if (i % cols2 == 0) {
+                System.out.println();
+                System.out.print("       ");
+            }
+            //System.out.println(variables[i] + " = " + beta.get(i, 0));
+        }
+        System.out.println();
+
+        // xk's prediction
+        Matrix predictions = pred_matrix.multiply(beta);
+        //System.out.println("Input predictions: ");
+        if (rows2 == 1) {
+            System.out.println("f(xk) = " + predictions.get(0, 0));
+        }
+        else {
+            for (int i = 0; i < rows2; i++) {
+                System.out.println("f(xk" + (i+1) + ") = " + predictions.get(i, 0));
+            } 
         }
     }
 }
