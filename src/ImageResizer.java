@@ -4,36 +4,6 @@ import javax.imageio.ImageIO;
 
 public class ImageResizer {
 
-    private static Matrix discrete_derivate(Matrix neighbors){
-        Matrix result = new Matrix(4, 4);
-        
-        for(int type = 0; type < 4; ++type){
-            for(int posy = 0; posy < 2; ++posy){
-                for(int posx = 0; posx < 2; ++posx){
-                    int x = posx + 1, y = posy + 1;
-                    double new_value = 0;
-
-                    if(type == 0){
-                        new_value = neighbors.get(x, y);
-                    }
-                    else if(type == 1){
-                        new_value = (neighbors.get(x, y + 1) - neighbors.get(x, y - 1)) / 2.0;
-                    }
-                    else if(type == 2){
-                        new_value = (neighbors.get(x + 1, y) - neighbors.get(x - 1, y)) / 2.0;
-                    }
-                    else{
-                        new_value = (neighbors.get(x + 1, y + 1) - neighbors.get(x - 1, y + 1) - neighbors.get(x + 1, y - 1) + neighbors.get(x - 1, y - 1)) / 4.0;
-                    }
-
-                    result.set(type, 2 * posy + posx, new_value);
-                }
-            }
-        }
-        
-        return result;
-    }
-
     private static int bicubic_spline_interpolate(BufferedImage image, double x, double y){
         int width = image.getWidth(), height = image.getHeight();
         int xf = (int) Math.max(0, Math.min(width - 1, Math.floor(x)));
@@ -62,11 +32,6 @@ public class ImageResizer {
                 blue_matrix.set(i + 1, j + 1, blue);
             }
         }
-
-        alpha_matrix = discrete_derivate(alpha_matrix);
-        red_matrix   = discrete_derivate(red_matrix);
-        green_matrix = discrete_derivate(green_matrix);
-        blue_matrix  = discrete_derivate(blue_matrix);
 
         double xp = Math.max(0, Math.min(width - 1, x - (double)xf)), yp = Math.max(0, Math.min(height - 1, y - (double)yf));
     

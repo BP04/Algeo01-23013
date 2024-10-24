@@ -39,7 +39,39 @@ public class BicubicSplineInterpolation {
         return result;
     }
 
+    private static Matrix discrete_derivate(Matrix neighbors){
+        Matrix result = new Matrix(4, 4);
+        
+        for(int type = 0; type < 4; ++type){
+            for(int posy = 0; posy < 2; ++posy){
+                for(int posx = 0; posx < 2; ++posx){
+                    int x = posx + 1, y = posy + 1;
+                    double new_value = 0;
+
+                    if(type == 0){
+                        new_value = neighbors.get(x, y);
+                    }
+                    else if(type == 1){
+                        new_value = (neighbors.get(x, y + 1) - neighbors.get(x, y - 1)) / 2.0;
+                    }
+                    else if(type == 2){
+                        new_value = (neighbors.get(x + 1, y) - neighbors.get(x - 1, y)) / 2.0;
+                    }
+                    else{
+                        new_value = (neighbors.get(x + 1, y + 1) - neighbors.get(x - 1, y + 1) - neighbors.get(x + 1, y - 1) + neighbors.get(x - 1, y - 1)) / 4.0;
+                    }
+
+                    result.set(type, 2 * posy + posx, new_value);
+                }
+            }
+        }
+        
+        return result;
+    }
+
     private static Matrix bicubic_spline_interpolation(Matrix F){
+        F = discrete_derivate(F);
+
         //a00 a01 a02 a03 a10 a11 a12 a13 a20 a21 a22 a23 a30 a31 a32 a33
         Matrix result = new Matrix(16, 1);
 
@@ -102,7 +134,7 @@ public class BicubicSplineInterpolation {
         double result = 0;
         for(int j = 0; j < 4; ++j){
             for(int i = 0; i < 4; ++i){
-                result += coeff.get(4 * i + j, 0) * power(x, i) * power(y, j);
+                result += coeff.get(4 * j + i, 0) * power(x, i) * power(y, j);
             }
         }
 

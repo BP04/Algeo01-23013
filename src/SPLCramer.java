@@ -1,3 +1,4 @@
+import java.util.Scanner;
 public class SPLCramer {
     private static void swap_rows(Matrix matrix, int row1, int row2) {
         double[] temp = matrix.copy_row(row1);
@@ -90,7 +91,7 @@ public class SPLCramer {
         return DeterminantRowReduction.determinant_row_reduction(matrix_n);
     }
 
-    public static void spl_cramer(Matrix matrix) {
+    public static void spl_cramer(Matrix matrix, Scanner scanner) {
         matrix = basis(matrix);
 
         int rows = matrix.get_rows(), cols = matrix.get_cols();
@@ -127,14 +128,17 @@ public class SPLCramer {
         // Case: unique or trivial solution
         // A determinant of other than 0 result in a unique set of solution
         else {
+            Matrix solution = new Matrix(rows, 1);
             for (int i = 0; i < cols-1; i++) {
                 double result = (determinant_n(matrix, i) / det);
                 System.out.print("x" + (i+1) + " = " + result);
                 if (i < cols-2) {
                     System.out.print(", ");
                 }
+                solution.set(i, 0, result); 
             }
             System.out.println("");
+            Matrix.save_output_SPL(scanner, solution);
         }
     }
 }

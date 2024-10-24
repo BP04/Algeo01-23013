@@ -65,14 +65,14 @@ public class Main {
                     } else {
                         mat = input_matrix_file(scanner);
                     }
-                    if (sub_option == 1){ // gauss
-                        SPLGaussian.spl_gaussian(mat);
+                    if (sub_option == 1){ // gaussian
+                        SPLGaussian.spl_gaussian(mat, scanner);
                     } else if (sub_option == 2){ // gauss-jordan
-                        SPLGaussJordan.spl_gauss_jordan(mat); 
+                        SPLGaussJordan.spl_gauss_jordan(mat, scanner); 
                     } else if (sub_option == 3){ //inverse
-                        SPLInverse.spl_inverse(mat);
+                        SPLInverse.spl_inverse(mat, scanner);
                     } else { //sub_option == 4, cramer
-                       SPLCramer.spl_cramer(mat);
+                       SPLCramer.spl_cramer(mat, scanner);
                     }
                     break;
                     
