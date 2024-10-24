@@ -1,3 +1,8 @@
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Scanner;
+
 public class PolynomialInterpolation {
 
     public static Matrix polynomial_interpolation(Matrix points, int idx) {
@@ -170,4 +175,78 @@ public class PolynomialInterpolation {
         }
         return DeterminantRowReduction.determinant_row_reduction(matrix_n);
     }
+
+    public static void interpolation_output_file(Scanner scanner, Matrix coefficients, double x) {
+        char save_option;
+        String filename;
+        File dir = new File("../test"); // Ensure this directory path is correct for your system
+
+        // Prompt user whether to save output
+        do {
+            System.out.print("Apakah output ingin disimpan ke file? (y/n): ");
+            save_option = scanner.next().charAt(0);
+        } while (save_option != 'y' && save_option != 'Y' && save_option != 'n' && save_option != 'N');
+
+        // If user wants to save the output
+        if (save_option == 'y' || save_option == 'Y') {
+            System.out.print("Masukkan nama file (tanpa .txt): ");
+            filename = scanner.next();
+
+            // Create directory if it doesn't exist
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+
+            try {
+                // Open file writer
+                PrintWriter writer = new PrintWriter(new File(dir, filename + ".txt"));
+
+                // Calculate the result for the given x
+                double result = 0;
+                for (int i = 0; i < coefficients.get_rows(); i++) {
+                    result += coefficients.get(i, 0) * Math.pow(x, i); 
+                }
+                
+                // Write the polynomial function to the file
+                writer.print("f(x) = ");
+                for (int i = coefficients.get_rows() - 1; i >= 0; i--) {
+                    if (i == coefficients.get_rows() - 1) {  
+                        writer.printf("%f", coefficients.get(i, 0));
+                        if (i > 1) {
+                            writer.printf("x^%d", i);  
+                        } else if (i == 1) {
+                            writer.print("x");
+                        }
+                    } else if (coefficients.get(i, 0) >= 0) {  // positive
+                        if (i > 1) {
+                            writer.printf(" + %fx^%d", coefficients.get(i, 0), i);
+                        } else if (i == 1) {
+                            writer.printf(" + %fx", coefficients.get(i, 0));
+                        } else {
+                            writer.printf(" + %f", coefficients.get(i, 0));
+                        }
+                    } else {  // negative
+                        if (i > 1) {
+                            writer.printf(" - %fx^%d", Math.abs(coefficients.get(i, 0)), i);
+                        } else if (i == 1) {
+                            writer.printf(" - %fx", Math.abs(coefficients.get(i, 0)));
+                        } else {
+                            writer.printf(" - %f", Math.abs(coefficients.get(i, 0)));
+                        }
+                    }
+                }
+                writer.println(); // Move to the next line after the polynomial
+                
+                // Write the result of f(x) for the given value of x
+                writer.printf("f(%f) = %f%n", x, result);
+
+                writer.close(); // Close the writer
+                System.out.println("Output berhasil disimpan ke file: " + filename + ".txt");
+
+            } catch (IOException e) {
+                System.out.println("Terjadi kesalahan saat menulis ke file: " + e.getMessage());
+            }
+        }
+    }
+
 }
