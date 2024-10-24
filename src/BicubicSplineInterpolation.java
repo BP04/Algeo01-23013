@@ -1,3 +1,8 @@
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Scanner;
+
 public class BicubicSplineInterpolation {
     private static double power(double b, double p){
         if(b == 0 && p == 0){
@@ -101,5 +106,44 @@ public class BicubicSplineInterpolation {
         F.print_matrix();
 
         System.out.println(evaluate(F, 0.5, 0.5));
+    }
+
+    public static void bicubic_spline_output_file(Scanner scanner, double[] results, double[] x_comps, double[] y_comps, double results_size) {
+        char save_option;
+        String filename;
+        File dir = new File("../test"); // Ensure this directory path is correct for your system
+        
+        // Prompt user whether to save output
+        do {
+            System.out.print("Apakah output ingin disimpan ke file? (y/n): ");
+            save_option = scanner.next().charAt(0);
+        } while (save_option != 'y' && save_option != 'Y' && save_option != 'n' && save_option != 'N');
+
+        // If user wants to save the output
+        if (save_option == 'y' || save_option == 'Y') {
+            System.out.print("Masukkan nama file (tanpa .txt): ");
+            filename = scanner.next();
+
+            // Create directory if it doesn't exist
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+
+            try {
+                // Open file writer
+                PrintWriter writer = new PrintWriter(new File(dir, filename + ".txt"));
+
+                // Writer print
+                for (int i = 0; i < results_size; i++) {
+                    writer.println("f(" + x_comps[i] + ", " + y_comps[i] + ") = " + results[i]);
+                }                
+
+                writer.close(); // Close the writer
+                System.out.println("Output berhasil disimpan ke file: " + filename + ".txt");
+
+            } catch (IOException e) {
+                System.out.println("Terjadi kesalahan saat menulis ke file: " + e.getMessage());
+            }
+        }
     }
 }
