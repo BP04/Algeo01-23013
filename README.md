@@ -1,7 +1,7 @@
 # Tugas Besar 1 IF2123 Aljabar Linear dan Geometri
-## Sistem Persamaan Linear, Determinan, dan Aplikasinya
+#### Sistem Persamaan Linear, Determinan, dan Aplikasinya
 
-## Kelompok 46 - Silahkan Siapapun Yang Mau Sekelompok Samaku (SSYMSS)
+### Kelompok 46 - Silahkan Siapapun Yang Mau Sekelompok Samaku (SSYMSS)
 | Nama | NIM |
 |----------|----------|
 | Nathaniel Jonathan Rusli | 13523013 |
@@ -48,6 +48,7 @@ Proyek ini adalah sebuah kalkulator matriks dan aplikasinya yang ditulis dalam b
 1. Clone repository atau unduh kode sumber program.
 2. Buka proyek di IDE yang mendukung Java.
 3. Jalankan program dari kelas Main.java.
-   ```cd src
+   ```
+   cd src
    javac *.java
-   java Main```
+   java Main
