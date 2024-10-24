@@ -450,6 +450,8 @@ public class Main {
                 cols = Math.max(cols, row.size());
             }
 
+            fileScanner.close();
+
             int rows = tempMatrix.size();
             Matrix mat = new Matrix(rows, cols);
 
@@ -544,6 +546,8 @@ public class Main {
                 tempMatrix.add(row);
                 cols = Math.max(cols, row.size());
             }
+
+            fileScanner.close();
     
             int rows = tempMatrix.size();
             if (rows == 0) {
@@ -615,6 +619,9 @@ public class Main {
                     matrixData[i][j] = Double.parseDouble(values[j]);
                 }
             }
+
+            fileScanner.close();
+
             Matrix matrix4x4 = new Matrix(4, 4);
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 4; j++) {
