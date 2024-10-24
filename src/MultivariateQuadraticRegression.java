@@ -45,7 +45,6 @@ public class MultivariateQuadraticRegression {
                 writer.println(); // Finish the function
 
                 // Write the predictions
-                writer.println();
                 if (prediction.get_rows() == 1) {
                     writer.println("f(xk) = " + prediction.get(0, 0));
                 } else {
