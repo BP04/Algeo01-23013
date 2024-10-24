@@ -11,8 +11,19 @@ public class SPLCramer {
         }
     }
 
+    private static int find_non_zero(Matrix matrix, int row){
+        int cols = matrix.get_cols();
+        for(int j = 0; j < cols; ++j){
+            if(matrix.get(row, j) != 0){
+                return j;
+            }
+        }
+        return -1;
+    }
+
     public static Matrix basis(Matrix matrix){
         int rows = matrix.get_rows(), cols = matrix.get_cols();
+        Matrix result = matrix.copy_matrix();
         Matrix temp = matrix.copy_matrix();
         int[] rows_position = new int[rows];
 
@@ -21,29 +32,40 @@ public class SPLCramer {
         }
 
         for(int i = 0; i < rows; ++i){
-            if(temp.get(i, i) == 0){
-                for(int j = i + 1; j < rows; ++j){
-                    if(temp.get(j, i) != 0){
-                        swap_rows(temp, i, j);
-                        int aux = rows_position[i];
-                        rows_position[i] = rows_position[j];
-                        rows_position[j] = aux;
-                        break;
+            int other_row = i, minimum = find_non_zero(result, i);
+            if(minimum == -1){
+                minimum = cols + 1;
+            }
+            for(int k = i + 1; k < rows; ++k){
+                int helper = find_non_zero(result, k);
+                if(helper == -1){
+                    helper = cols + 1;
+                }
+                if(helper < minimum){
+                    minimum = helper;
+                    other_row = k;
+                }
+            }
+
+            if(other_row != -1){
+                swap_rows(result, i, other_row);
+            }
+
+            int non_zero_position = find_non_zero(result, i);
+
+            if(non_zero_position != -1){
+                double pivot = result.get(i, non_zero_position);
+                if(pivot != 0){
+                    for(int j = 0; j < cols; ++j){
+                        result.set(i, j, result.get(i, j) / pivot);
                     }
                 }
-            }
-
-            double pivot = temp.get(i, i);
-            if(pivot != 0){
-                for(int j = i; j < cols; ++j){
-                    temp.set(i, j, temp.get(i, j) / pivot);
-                }
-            }
-
-            for(int k = i + 1; k < rows; ++k){
-                double constant = temp.get(k, i);
-                for(int j = i; j < cols; ++j){
-                    temp.set(k, j, temp.get(k, j) - temp.get(i, j) * constant);
+                
+                for(int k = i + 1; k < rows; ++k){
+                    double constant = result.get(k, non_zero_position);
+                    for(int j = non_zero_position; j < cols; ++j){
+                        result.set(k, j, result.get(k, j) - result.get(i, j) * constant);
+                    }
                 }
             }
         }
@@ -62,16 +84,16 @@ public class SPLCramer {
             }
         }
 
-        Matrix result = new Matrix(used + 1, cols);
+        Matrix ret = new Matrix(used + 1, cols);
 
         for(int i = 0; i <= used; ++i){
             int index = rows_position[i];
             for(int j = 0; j < cols; ++j){
-                result.set(i, j, matrix.get(index, j));
+                ret.set(i, j, matrix.get(index, j));
             }
         }
 
-        return result;
+        return ret;
     }
 
     private static double determinant_n(Matrix matrix, int n) {
@@ -92,9 +114,13 @@ public class SPLCramer {
     }
 
     public static void spl_cramer(Matrix matrix, Scanner scanner) {
-        matrix = basis(matrix);
-
         int rows = matrix.get_rows(), cols = matrix.get_cols();
+
+        if (rows != (cols-1)) {
+            System.out.println("The Cramer method is used for square matrix, i.e. the number of rows is equal to the number of columns.");
+            return;
+        }
+
         Matrix matrix_det = new Matrix(rows, rows);
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < rows; j++) {
@@ -132,7 +158,7 @@ public class SPLCramer {
             for (int i = 0; i < cols-1; i++) {
                 double result = (determinant_n(matrix, i) / det);
                 System.out.print("x" + (i+1) + " = " + result);
-                if (i < cols-2) {
+                if(i < cols - 2){
                     System.out.print(", ");
                 }
                 solution.set(i, 0, result); 

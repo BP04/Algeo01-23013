@@ -1,6 +1,5 @@
 public class DeterminantRowReduction {
     private static void swap_rows(Matrix matrix, int row1, int row2) {
-        System.out.println(row1 + " " + row2);
         double[] temp = matrix.copy_row(row1);
         int cols = matrix.get_cols();
         for(int j = 0; j < cols; ++j){

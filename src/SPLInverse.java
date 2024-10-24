@@ -20,7 +20,7 @@ public class SPLInverse {
             rows_position[i] = i;
         }
 
-        for(int i = 0; i < rows; ++i){
+        for(int i = 0; i < Math.min(rows, cols - 1); ++i){
             if(temp.get(i, i) == 0){
                 for(int j = i + 1; j < rows; ++j){
                     if(temp.get(j, i) != 0){
@@ -81,7 +81,8 @@ public class SPLInverse {
         int cols = matrix.get_cols();
 
         if (cols != rows + 1) {
-            throw new IllegalArgumentException("Matrix might not be augmented (last column should be constants).");
+            SPLGaussJordan.spl_gauss_jordan(matrix, scanner);
+            return;
         }
 
         Matrix coefficients = new Matrix(rows, rows);

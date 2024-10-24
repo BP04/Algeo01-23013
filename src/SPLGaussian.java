@@ -80,17 +80,17 @@ public class SPLGaussian {
             }
         } else {
             Matrix solution = new Matrix(rows, 1);
-            for (int i = rows-1; i >= 0; i--) {
+            for (int i = Math.min(rows, cols - 1) - 1; i >= 0; i--) {
                 double sum = matrix.get(i, cols-1); 
-                for (int j = i+1; j < rows; j++) {
+                for (int j = i+1; j < Math.min(rows, cols - 1); j++) {
                     sum -= matrix.get(i, j) * solution.get(j, 0);
                 }
                 double value = sum / matrix.get(i, i); 
                 solution.set(i, 0, value); 
             }
-            for (int i = 0; i < rows; i++) {
+            for (int i = 0; i < Math.min(rows, cols - 1); i++) {
                 System.out.print("x" + (i+1) + " = " + solution.get(i, 0));
-                if (i < rows-1) {
+                if (i < Math.min(rows, cols - 1) - 1) {
                     System.out.print(", ");
                 }
             }

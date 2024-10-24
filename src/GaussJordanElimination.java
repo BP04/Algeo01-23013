@@ -15,7 +15,7 @@ public class GaussJordanElimination {
         matrix = GaussianElimination.gaussian_elimination(matrix);
 
         //Execute backward elimination
-        for(int i = 1; i < rows; i++){
+        for(int i = 1; i < Math.min(rows, cols - 1); i++){
             int non_zero_position = find_non_zero(matrix, i);
 
             if(non_zero_position != -1){
