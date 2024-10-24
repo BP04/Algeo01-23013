@@ -204,7 +204,8 @@ public class Main {
                     }
                     try {
                         Matrix coefficients = PolynomialInterpolation.polynomial_interpolation(mat, sub_option);
-                        PolynomialInterpolation.estimate_value(coefficients, x); 
+                        PolynomialInterpolation.estimate_value(coefficients, x);
+                        PolynomialInterpolation.interpolation_output_file(scanner, coefficients, x); 
                     } catch (IllegalArgumentException e) {
                         System.out.println(e.getMessage());
                     } catch (Exception e) {
