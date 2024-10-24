@@ -214,6 +214,11 @@ public class Main {
 
                 case 5:
                     Matrix samples;
+                    //  File operations 
+                    double[] xcomps;
+                    double[] ycomps;
+                    double[] results;
+                    double results_size;
 
                     System.out.println("interpolasi bicubic spline");
 
@@ -232,11 +237,14 @@ public class Main {
                         System.out.println("Masukkan banyak sampel yang akan dikalkulasi:");
                         int N = scanner.nextInt();
                         scanner.nextLine();
+                        xcomps = new double[N];
+                        ycomps = new double[N];
+                        results = new double[N];
+                        results_size = N;
                         for(int it = 0; it < N; ++it){
                             System.out.println("Masukkan sample ke-" + (it + 1) + ":");
                             if (scanner.hasNextLine()) {
                                 String sampleInput = scanner.nextLine();
-                                
                                 String[] components = sampleInput.trim().split("\\s+");
                                 try {
                                     double x_comp = Double.parseDouble(components[0]);
@@ -244,20 +252,24 @@ public class Main {
                 
                                     double result = BicubicSplineInterpolation.evaluate(mat, x_comp, y_comp);
                                     System.out.println("f(" + x_comp + ", " + y_comp + ") = " + result);
+                                    xcomps[it] = x_comp;
+                                    ycomps[it] = y_comp;
+                                    results[it] = result;
                                 } catch (NumberFormatException e) {
                                     System.out.println("Invalid input format for sample coordinates.");
                                 }
                             }
                         }
+                        BicubicSplineInterpolation.bicubic_spline_output_file(scanner, results, xcomps, ycomps, results_size);
                     }
                     else{
                         Matrix[] matrices = input_matrix_file_bicubic(scanner);
-
+                        
                         if (matrices == null) {
                             System.out.println("Terjadi kesalahan dalam pembacaan file atau format tidak valid.");
                             break;
                         }
-
+                        
                         mat = matrices[0];
                         samples = matrices[1];
 
@@ -265,12 +277,20 @@ public class Main {
                             System.out.println("Error: Matriks tidak valid.");
                             break;
                         }
-
+                        
+                        xcomps = new double[samples.get_rows()];
+                        ycomps = new double[samples.get_rows()];
+                        results = new double[samples.get_rows()];
+                        results_size = samples.get_rows();
                         for(int it = 0; it < samples.get_rows(); ++it){
                             double x_comp = samples.get(it, 0), y_comp = samples.get(it, 1);
                             double result = BicubicSplineInterpolation.evaluate(mat, x_comp, y_comp);
                             System.out.println("f(" + x_comp + ", " + y_comp + ") = " + result);
+                            xcomps[it] = x_comp;
+                            ycomps[it] = y_comp;
+                            results[it] = result;
                         }
+                        BicubicSplineInterpolation.bicubic_spline_output_file(scanner, results, xcomps, ycomps, results_size);
                     }
 
                     break;
