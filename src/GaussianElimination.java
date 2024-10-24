@@ -20,29 +20,28 @@ public class GaussianElimination {
         return -1;
     }
 
-    private static boolean check_all_zero(Matrix matrix, int row){
-        int cols = matrix.get_cols();
-        for(int j = 0; j < cols; ++j){
-            if(matrix.get(row, j) != 0){
-                return false;
-            }
-        }
-        return true;
-    }
-
     public static Matrix gaussian_elimination(Matrix matrix){
         int rows = matrix.get_rows(), cols = matrix.get_cols();
         Matrix result = matrix.copy_matrix();
 
         for(int i = 0; i < rows; ++i){
-            if(check_all_zero(result, i)){
-                for(int j = i + 1; j < rows; ++j){
-                    int non_zero_position = find_non_zero(result, j);
-                    if(non_zero_position != -1){
-                        swap_rows(result, i, j);
-                        break;
-                    }
+            int other_row = i, minimum = find_non_zero(result, i);
+            if(minimum == -1){
+                minimum = cols + 1;
+            }
+            for(int k = i + 1; k < rows; ++k){
+                int temp = find_non_zero(result, k);
+                if(temp == -1){
+                    temp = cols + 1;
                 }
+                if(temp < minimum){
+                    minimum = temp;
+                    other_row = k;
+                }
+            }
+
+            if(other_row != -1){
+                swap_rows(result, i, other_row);
             }
 
             int non_zero_position = find_non_zero(result, i);

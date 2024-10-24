@@ -70,10 +70,10 @@ public class ImageResizer {
 
         double xp = Math.max(0, Math.min(width - 1, x - (double)xf)), yp = Math.max(0, Math.min(height - 1, y - (double)yf));
     
-        int alpha = (int)BicubicSplineInterpolation.evaluate(alpha_matrix, xp, yp);
-        int red   = (int)BicubicSplineInterpolation.evaluate(red_matrix, xp, yp);
-        int green = (int)BicubicSplineInterpolation.evaluate(green_matrix, xp, yp);
-        int blue  = (int)BicubicSplineInterpolation.evaluate(blue_matrix, xp, yp);
+        int alpha = (int)BicubicSplineInterpolation.evaluate_color(alpha_matrix, xp, yp);
+        int red   = (int)BicubicSplineInterpolation.evaluate_color(red_matrix, xp, yp);
+        int green = (int)BicubicSplineInterpolation.evaluate_color(green_matrix, xp, yp);
+        int blue  = (int)BicubicSplineInterpolation.evaluate_color(blue_matrix, xp, yp);
     
         alpha = Math.max(0, Math.min(alpha, 255));
         red   = Math.max(0, Math.min(red, 255));

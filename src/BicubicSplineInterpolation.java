@@ -79,7 +79,7 @@ public class BicubicSplineInterpolation {
         return result;
     }
     
-    public static double evaluate(Matrix F, double x, double y){
+    public static double evaluate_color(Matrix F, double x, double y){
         Matrix coeff = bicubic_spline_interpolation(F);
 
         //coeff.print_matrix();
@@ -87,6 +87,21 @@ public class BicubicSplineInterpolation {
         double result = 0;
         for(int i = 0; i < 4; ++i){
             for(int j = 0; j < 4; ++j){
+                result += coeff.get(4 * i + j, 0) * power(x, i) * power(y, j);
+            }
+        }
+
+        return result;
+    }
+
+    public static double evaluate(Matrix F, double x, double y){
+        Matrix coeff = bicubic_spline_interpolation(F);
+
+        //coeff.print_matrix();
+
+        double result = 0;
+        for(int j = 0; j < 4; ++j){
+            for(int i = 0; i < 4; ++i){
                 result += coeff.get(4 * i + j, 0) * power(x, i) * power(y, j);
             }
         }

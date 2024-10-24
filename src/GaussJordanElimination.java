@@ -34,6 +34,14 @@ public class GaussJordanElimination {
                 }
             }
         }
+
+        // for(int i = 0; i < rows; ++i){
+        //     for(int j = 0; j < cols; ++j){
+        //         System.out.print((int)matrix.get(i, j) + " " );
+        //     }
+        //     System.out.println();
+        // }
+
         return matrix;
     }
 
