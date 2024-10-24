@@ -1,3 +1,4 @@
+import java.util.Scanner;
 public class SPLInverse {
     private static void swap_rows(Matrix matrix, int row1, int row2) {
         double[] temp = matrix.copy_row(row1);
@@ -74,14 +75,14 @@ public class SPLInverse {
     }
     
     public static void spl_inverse(Matrix matrix) {
+        Scanner scanner = new Scanner(System.in);
         matrix = basis(matrix);
         
         int rows = matrix.get_rows();
         int cols = matrix.get_cols();
 
         if (cols != rows + 1) {
-            SPLGaussian.spl_gaussian(matrix);
-            return;
+            throw new IllegalArgumentException("Matrix might not be augmented (last column should be constants).");
         }
 
         Matrix coefficients = new Matrix(rows, rows);
@@ -106,6 +107,7 @@ public class SPLInverse {
                 }
             }
             System.out.println();
+            Matrix.save_output_SPL(scanner, solution);
         }
     }
 }
