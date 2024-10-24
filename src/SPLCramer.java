@@ -91,8 +91,7 @@ public class SPLCramer {
         return DeterminantRowReduction.determinant_row_reduction(matrix_n);
     }
 
-    public static void spl_cramer(Matrix matrix) {
-        Scanner scanner = new Scanner(System.in);
+    public static void spl_cramer(Matrix matrix, Scanner scanner) {
         matrix = basis(matrix);
 
         int rows = matrix.get_rows(), cols = matrix.get_cols();
