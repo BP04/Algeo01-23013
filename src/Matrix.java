@@ -1,8 +1,12 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.util.Scanner;
+
 public class Matrix {
     private int rows;
     private int cols;
     private double[][] data;
-
     public Matrix(int rows, int cols){
         this.rows = rows;
         this.cols = cols;
@@ -109,5 +113,42 @@ public class Matrix {
         }
 
         return result;
+    }
+
+    public static void save_output_SPL(Scanner scanner, Matrix result) {
+        char save_option;
+        do {
+            System.out.print("Apakah output ingin disimpan ke file? (y/n): ");
+            save_option = scanner.next().charAt(0);
+        } while (save_option != 'y' && save_option != 'Y' && save_option != 'n' && save_option != 'N');
+
+        if (save_option == 'y' || save_option == 'Y') {
+            System.out.print("Masukkan nama file (tanpa .txt): ");
+            String filename = scanner.next();
+
+            File dir = new File("../test");
+            if (!dir.exists()) {
+                if (dir.mkdirs()) {
+                    System.out.println("Direktori 'test' berhasil dibuat.");
+                } else {
+                    System.out.println("Gagal membuat direktori 'test'.");
+                    return; 
+                }
+            }
+
+            try {
+                PrintWriter writer = new PrintWriter(new File(dir, filename + ".txt"));
+
+                for (int i = 0; i < result.get_rows(); i++) {
+                    writer.printf("x%d = " + result.get(i, 0) + "\n", i + 1); 
+                }
+
+                writer.close();
+                System.out.println("Output berhasil disimpan di folder test/" + filename + ".txt");
+            } catch (FileNotFoundException e) {
+                System.out.println("Terjadi kesalahan saat menyimpan file.");
+                e.printStackTrace(); 
+            }
+        }
     }
 }
