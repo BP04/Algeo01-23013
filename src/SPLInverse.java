@@ -95,7 +95,7 @@ public class SPLInverse {
 
         double det = DeterminantRowReduction.determinant_row_reduction(coefficients);
         if (det == 0) {
-            SPLGaussian.spl_gaussian(matrix);
+            SPLGaussian.spl_gaussian(matrix, scanner);
         } else {
             Matrix inverse = InverseMatrixGaussJordan.inverse_matrix(coefficients);
             Matrix solution = inverse.multiply(constants);
