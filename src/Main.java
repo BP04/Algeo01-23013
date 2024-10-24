@@ -65,7 +65,7 @@ public class Main {
                     } else {
                         mat = input_matrix_file(scanner);
                     }
-                    if (sub_option == 1){ // gauss
+                    if (sub_option == 1){ // gaussian
                         SPLGaussian.spl_gaussian(mat, scanner);
                     } else if (sub_option == 2){ // gauss-jordan
                         SPLGaussJordan.spl_gauss_jordan(mat, scanner); 
