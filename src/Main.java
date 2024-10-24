@@ -407,6 +407,9 @@ public class Main {
     public static Matrix input_matrix_file(Scanner scanner) {
         try {
             System.out.println("Masukkan nama file:");
+            if (scanner.hasNextLine()) {
+                scanner.nextLine();
+            }
             String filename = scanner.nextLine();
             File file = new File(filename);
             Scanner fileScanner = new Scanner(file);
