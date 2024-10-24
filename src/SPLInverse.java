@@ -74,8 +74,7 @@ public class SPLInverse {
         return result;
     }
     
-    public static void spl_inverse(Matrix matrix) {
-        Scanner scanner = new Scanner(System.in);
+    public static void spl_inverse(Matrix matrix, Scanner scanner) {
         matrix = basis(matrix);
         
         int rows = matrix.get_rows();
