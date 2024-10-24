@@ -1,7 +1,6 @@
 import java.util.Scanner;
 public class SPLGaussian {
-    public static void spl_gaussian(Matrix matrix) {
-        Scanner scanner = new Scanner(System.in);
+    public static void spl_gaussian(Matrix matrix, Scanner scanner) {
         int rows = matrix.get_rows();
         int cols = matrix.get_cols();
         matrix = GaussianElimination.gaussian_elimination(matrix);
