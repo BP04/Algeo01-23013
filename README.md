@@ -13,36 +13,36 @@ Proyek ini adalah sebuah kalkulator matriks dan aplikasinya yang ditulis dalam b
 
 ## Fitur Utama
 1. Sistem Persamaan Linier (SPL)
-   Program dapat menyelesaikan SPL menggunakan beberapa metode:
+   <br>Program dapat menyelesaikan SPL menggunakan beberapa metode:
    - Metode eliminasi Gauss
    - Metode eliminasi Gauss-Jordan
    - Matriks balikan
    - Kaidah Cramer
      
 2. Determinan
-   Program menghitung determinan dari sebuah matriks dengan dua metode, yaitu metode eliminasi Gauss-Jordan dan matriks balikan.
+   <br>Program menghitung determinan dari sebuah matriks dengan dua metode, yaitu metode eliminasi Gauss-Jordan dan matriks balikan.
 
 3. Matriks Balikan
-   Program menghitung balikan dari sebuah matriks dengan dua metode, yaitu operasi baris elementer (OBE) dan matriks adjoin.
+   <br>Program menghitung balikan dari sebuah matriks dengan dua metode, yaitu operasi baris elementer (OBE) dan matriks adjoin.
 
 4. Interpolasi Polinom
-   Program melakukan interpolasi polinom untuk data titik-titik yang diberikan menggunakan beberapa metode:
+   <br>Program melakukan interpolasi polinom untuk data titik-titik yang diberikan menggunakan beberapa metode:
    - Metode eliminasi Gauss
    - Metode eliminasi Gauss-Jordan
    - Matriks balikan
    - Kaidah Cramer
      
 6. Interpolasi Bicubic Spline
-   Program melakukan interpolasi bicubic spline.
+   <br>Program melakukan interpolasi bicubic spline.
 
 7. Regresi Linier dan Kuadratik Berganda
-   Program menyelesaikan regresi linier dan kuadratik berganda untuk data yang diberikan.
+   <br>Program menyelesaikan regresi linier dan kuadratik berganda untuk data yang diberikan.
 
 8. Interpolasi Gambar
-   Program melakukan scaling (resizing) gambar berdasarkan ukuran matriks tertentu.
+   <br>Program melakukan scaling (resizing) gambar berdasarkan ukuran matriks tertentu.
 
 9. Keluar
-   Mengakhiri program.
+   <br>Mengakhiri program.
 
 ## Cara Penggunaan
 1. Clone repository atau unduh kode sumber program.
