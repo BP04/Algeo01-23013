@@ -50,5 +50,6 @@ Proyek ini adalah sebuah kalkulator matriks dan aplikasinya yang ditulis dalam b
 3. Jalankan program dari kelas Main.java.
    ```
    cd src
-   javac *.java
-   java Main
+   javac -d ../bin *.java
+   cd ../bin
+   java Main.Main
