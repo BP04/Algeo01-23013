@@ -1,7 +1,6 @@
 import java.util.Scanner;
 public class SPLGaussJordan {
-    public static void spl_gauss_jordan(Matrix matrix) {
-        Scanner scanner = new Scanner(System.in);
+    public static void spl_gauss_jordan(Matrix matrix, Scanner scanner) {
         int rows = matrix.get_rows(), cols = matrix.get_cols();
 
         // Execute the Gauss-Jordan Elimination function on matrix
