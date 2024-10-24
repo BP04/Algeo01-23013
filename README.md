@@ -32,13 +32,13 @@ Proyek ini adalah sebuah kalkulator matriks dan aplikasinya yang ditulis dalam b
    - Matriks balikan
    - Kaidah Cramer
      
-5. Interpolasi Bicubic Spline
+6. Interpolasi Bicubic Spline
    Program melakukan interpolasi bicubic spline.
 
-6. Regresi Linier dan Kuadratik Berganda
+7. Regresi Linier dan Kuadratik Berganda
    Program menyelesaikan regresi linier dan kuadratik berganda untuk data yang diberikan.
 
-7. Interpolasi Gambar
+8. Interpolasi Gambar
    Program melakukan scaling (resizing) gambar berdasarkan ukuran matriks tertentu.
 
 9. Keluar
