@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class MultipleLinearRegression {
-    public static void multiple_linear_regression(Matrix matrix, Matrix xk) {
+    public static void multiple_linear_regression(Matrix matrix, Matrix xk, Scanner scanner) {
         int rows = matrix.get_rows(), cols = matrix.get_cols() - 1;
         int rows2 = xk.get_rows(), cols2 = xk.get_cols();
 
@@ -40,7 +40,6 @@ public class MultipleLinearRegression {
         double lambda = 0.0;
 
         // Choose method choice
-        Scanner scanner = new Scanner(System.in);
         System.out.println("Choose regression method number:");
         System.out.println("1. Ordinary Least Squares (OLS)");
         System.out.println("2. Ridge Regression");
@@ -89,9 +88,6 @@ public class MultipleLinearRegression {
             }
             A = InverseMatrixDeterminant.inverse_with_determinant(A);
         }   
- 
-        // Close scanner object
-        scanner.close();
 
         // Continue calculation
         Matrix b = x.transpose_matrix();

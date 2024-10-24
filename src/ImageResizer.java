@@ -103,20 +103,15 @@ public class ImageResizer {
         return resized_image;
     }
 
-    public static void main(String[] args) {
+    public static void scale_image(String input_file_name, String output_file_name, double scaleX, double scaleY) {
         try {
-            File inputFile = new File("gradient_image.jpg");
-            BufferedImage inputImage = ImageIO.read(inputFile);
+            File input_file = new File(input_file_name);
+            BufferedImage input_image = ImageIO.read(input_file);
 
-            System.out.println(inputImage.getWidth() + " " + inputImage.getHeight());
+            BufferedImage resizedImage = resize(input_image, scaleX, scaleY);
 
-            double scaleX = 100;
-            double scaleY = 100;
-
-            BufferedImage resizedImage = resize(inputImage, scaleX, scaleY);
-
-            File outputFile = new File("output.png");
-            ImageIO.write(resizedImage, "png", outputFile);
+            File output_file = new File(output_file_name + ".jpg");
+            ImageIO.write(resizedImage, "jpg", output_file);
 
             System.out.println("Image resized and saved successfully.");
 
