@@ -80,7 +80,8 @@ public class SPLInverse {
         int cols = matrix.get_cols();
 
         if (cols != rows + 1) {
-            throw new IllegalArgumentException("Matrix might not be augmented (last column should be constants).");
+            SPLGaussian.spl_gaussian(matrix);
+            return;
         }
 
         Matrix coefficients = new Matrix(rows, rows);
