@@ -5,8 +5,6 @@ public class SPLGaussJordan {
 
         // Execute the Gauss-Jordan Elimination function on matrix
         matrix = GaussJordanElimination.gauss_jordan_elimination(matrix);
-        
-        matrix.print_matrix();
 
         boolean has_contradiction = false;
         boolean has_all_zeros = false;
